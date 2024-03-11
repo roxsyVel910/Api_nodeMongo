@@ -1,8 +1,15 @@
 const mongoose = require('mongoose')
-const userSchema = new mongoose.Schema(
+const TracksSchema = new mongoose.Schema(
     {
         name: {
             type: String,
+        },
+        album: {
+            type: String,
+        },
+        cover: {
+            type: String,
+            
         },
         age: {
             type: Number,
@@ -28,4 +35,4 @@ const userSchema = new mongoose.Schema(
     }
 );
 
-module.exports = mongoose.model('users', userSchema)
+module.exports = mongoose.model('users', TracksSchema)

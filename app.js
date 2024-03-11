@@ -6,6 +6,10 @@ const app = express()
 
 app.use(cors())
 const port = process.env.PORT || 8002
+/**
+ ** ROUTES **/
+app.use("/api/tracks", require('./routes/tracks'))
+
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
