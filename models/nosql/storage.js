@@ -1,31 +1,19 @@
-const mongoose = require('mongoose')
-const StorageSchema = new mongoose.Schema(
-    {
-        name: {
-            type: String,
-        },
-        age: {
-            type: Number,
-        },
-        email: {
-            type: String,
-            unique: true
-        },
-        password: {
-            type: String,
+const mongoose = require("mongoose")
 
-        },
-        role:{
-            type:["user","admin"],
-            default:"user",
-        }
-    
-},
+
+const StorageScheme = new mongoose.Schema(
     {
-        
-        timestamps: true, //TODO createdAt, updatedAt
-        versionKey: false
+        url:{
+            type:String
+        },
+        filename:{
+            type:String
+        }
+    },
+    {
+        timestamps:true, // CreatedAt, UpdatedAt
+        versionKey:false
     }
 );
 
-module.exports = mongoose.model('storage', StorageSchema)
+module.exports = mongoose.model("storages",StorageScheme) //NOMBRE DE LA COLECCION DEL MODELO
