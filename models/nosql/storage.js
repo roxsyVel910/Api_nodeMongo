@@ -28,4 +28,4 @@ const StorageSchema = new mongoose.Schema(
     }
 );
 
-module.exports = mongoose.model('users', StorageSchema)
+module.exports = mongoose.model('storage', StorageSchema)

@@ -1,38 +1,50 @@
-const mongoose = require('mongoose')
-const TracksSchema = new mongoose.Schema(
-    {
-        name: {
-            type: String,
-        },
-        album: {
-            type: String,
-        },
-        cover: {
-            type: String,
-            
-        },
-        age: {
-            type: Number,
-        },
-        email: {
-            type: String,
-            unique: true
-        },
-        password: {
-            type: String,
+const mongoose = require('mongoose');
 
+const TracksSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+    },
+    album: {
+      type: String,
+    },
+    cover: {
+      type: String,
+      validate: {
+        validator: (req) => {
+          return true;
         },
-        role:{
-            type:["user","admin"],
-            default:"user",
-        }
-    
-},
-    {
-        
-        timestamps: true, //TODO createdAt, updatedAt
-        versionKey: false
-    }
+        message: 'ERROR_URL',
+      },
+    },
+    artist: {
+      name: {
+        type: String,
+      },
+      nickname: {
+        type: String,
+      },
+      nationality: {
+        type: String,
+      },
+    },
+    duration: {
+      start: {
+        type: Number,
+      },
+      end: {
+        type: Number,
+      },
+    },
+    mediaId: {
+      type: mongoose.Types.ObjectId,
+    },
+  },
+  {
+    versionKey: false,
+    timestamps: true,
+  }
 );
 
-module.exports = mongoose.model('users', TracksSchema)
+
+module.exports = mongoose.model('tracks', TracksSchema);
