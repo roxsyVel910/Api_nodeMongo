@@ -6,10 +6,12 @@ const app = express()
 
 app.use(cors())
 app.use(express.json())
+app.use(express.static('storage'))
 const port = process.env.PORT || 8002
 /**
  ** ROUTES **/
 app.use("/api/tracks", require('./routes/tracks'))
+app.use("/api/storage", require('./routes/storage'))
 
 
 app.listen(port, () => {
