@@ -1,6 +1,6 @@
 const customHeader = (req, res, next) => {
     try {
-        const apiKey = req.headers['api_key'];
+        const apiKey = req.headers['api-key'];
         if (apiKey === "rous-02") {
             next
         } else {
