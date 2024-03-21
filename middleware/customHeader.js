@@ -12,4 +12,4 @@ const customHeader = (req, res, next) => {
         res.send({ error: "ALGO-OCURRIO_EN_EL_PROCESO" });
     }
 }
-module.exports = {customHeader}
+module.exports = { customHeader }
