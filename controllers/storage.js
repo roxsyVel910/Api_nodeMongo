@@ -1,61 +1,67 @@
-const  { storageModel } = require('../models')
-const PUBLIC_URL = process.env.PUBLIC_URL;
-/**
- * obtener lista 
- * @param {*} req
- * @param {*} res
- * */
+const { matchedData } = require('express-validator');
+const { tracksModel } = require('../models');
+const { handleHttpError } = require('../utils/handleError');
 
+//GetAll
 const getItems = async (req, res) => {
-    const data = await storageModel.find({});
-    res.send({ data })
-};
-const getItem = ( req, res) => {
-    const { body } = req
-    console.log(body)
-    res.send({algo:1})
-};
-
-/**
- * insertar datos
- * @param {*} req 
- * @param {*} res 
- */
-const createItem = async ( req, res) => {
-    const { body,file } = req
-    
-    console.log(file)
-    const fileData = {
-        filename: file.filename,
-        url: `${PUBLIC_URL}/${file.filename}`
-    }
-    const data = await storageModel.create(fileData)
-    if(data){
-        res.send({data})
-    }
- 
-    res.send({file})
-
+  try {
+    const user = req.user;
+    const data = await tracksModel.findAllData({}); //find
+    res.send({ data, user });
+  } catch (error) {
+    handleHttpError(res, 'ERROR_GET_ITEMS');
+  }
 };
 
-/**
- * actualizar datos
- * @param {*} req 
- * @param {*} res 
- */
-const updateItem = ( req, res) => {};
+//GetItem
+const getItem = async (req, res) => {
+  try {
+    req = matchedData(req);
+    const { id } = req;
 
-/**
- * borrar datos
- * @param {*} req 
- * @param {*} res 
- */
-const deleteItem = ( req, res) => {};
+    const data = await tracksModel.findOneData(id); //findById
+    res.send({ data });
+  } catch (error) {
+    handleHttpError(res, 'ERROR_GET_ITEM');
+  }
+};
 
-module.exports = {
-    getItems,
-    getItem,
-    createItem,
-    updateItem,
-    deleteItem
-}
+//Create
+const createItem = async (req, res) => {
+  try {
+    const body = matchedData(req);
+    const data = await tracksModel.create(body);
+
+    res.send({ data });
+  } catch (error) {
+    handleHttpError(res, 'ERROR_CREATE_ITEMS');
+  }
+};
+
+//Update
+const updateItem = async (req, res) => {
+  try {
+    const { id, ...body } = matchedData(req);
+    const data = await tracksModel.findOneAndUpdate(id, body);
+
+    res.send({ data });
+  } catch (error) {
+    handleHttpError(res, 'ERROR_UPDATE_ITEMS');
+  }
+};
+
+//Delete
+const deleteItem = async (req, res) => {
+  try {
+    req = matchedData(req);
+    const { id } = req;
+
+    const data = await tracksModel.delete({ _id: id }); //deleteOne (borra el dato)
+    res.send({ data });
+  } catch (error) {
+    console.log(error);
+    handleHttpError(res, 'ERROR_DELETE_ITEM');
+  }
+};
+
+module.exports = { getItems, getItem, createItem, updateItem, deleteItem };
